@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  docker:
+  plugin:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,11 +26,11 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Create zip artifact
-        run: zip -r artifact.zip versions.json manifest.json main.js styles.css
+      - name: Move into dist directory
+        run: mkdir dist && mv versions.json manifest.json styles.css main.js dist
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: plugin
-          path: artifact.zip
+          path: dist/*
